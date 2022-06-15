@@ -15,7 +15,7 @@ class IPerf3 {
     async run() {
         Log(`run: client ${this.client} <- server ${this.server} (${this.protocol})`);
         const ac = new AbortController();
-        const timeout = new setTimeout(() => ac.abort(), this.timeout);
+        const timeout = setTimeout(() => ac.abort(), this.timeout);
         let iperf = null;
         try {
             const url = `http://${this.client}.local.mesh:8080/cgi-bin/iperf?server=${this.server}.local.mesh&protocol=${this.protocol}`;
