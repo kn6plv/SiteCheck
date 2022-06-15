@@ -1,11 +1,24 @@
 #! /usr/bin/env nodejs
 
 const Log = require("debug")("main");
+const http = require("http");
+const net = require("net");
 const Leafs = require("./Leafs");
 const IPerf3 = require("./tests/Iperf3");
 
+const localAddress = null;
+
 (async function() {
     Log("running:");
+
+    const agent = new http.Agent();
+    agent.createConnection = function(options, callback) {
+        if (localAddress) {
+            options.localAddress = localAddress;
+        }
+        return net.createConnection(options, callback);
+    }
+    http.globalAgent = agent;
 
     const root = process.argv[2] || "localnode";
 
